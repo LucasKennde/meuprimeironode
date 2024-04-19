@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const bcrypt = require('bcrypt'); // Importe a biblioteca bcrypt
 const mysql = require('mysql');
 
 const app = express();
@@ -39,18 +40,28 @@ app.use(bodyParser.json());
 
 // Rota para cadastrar usuário
 app.post('/cadastrar', (req, res) => {
-    const status =2;
-    const { nome, cpf, email, senha} = req.body;
+    const status = 2;
+    const { nome, cpf, email, senha } = req.body;
 
-    const sql = 'INSERT INTO caduser (nome, cpf, email, senha, status) VALUES (?, ?, ?, ?, ?)';
-    connection.query(sql, [nome, cpf, email, senha, status], (err, result) => {
+    // Criptografar a senha antes de armazená-la no banco de dados
+    bcrypt.hash(senha, 10, (err, hash) => {
         if (err) {
-            console.error('Erro ao inserir usuário:', err);
+            console.error('Erro ao criar hash da senha:', err);
             res.status(500).send('Erro ao cadastrar usuário.');
             return;
         }
-        console.log('Usuário cadastrado:', result);
-        res.sendStatus(200);
+
+        // Inserir usuário no banco de dados com a senha criptografada
+        const sql = 'INSERT INTO caduser (nome, cpf, email, senha, status) VALUES (?, ?, ?, ?, ?)';
+        connection.query(sql, [nome, cpf, email, hash, status], (err, result) => {
+            if (err) {
+                console.error('Erro ao inserir usuário:', err);
+                res.status(500).send('Erro ao cadastrar usuário.');
+                return;
+            }
+            console.log('Usuário cadastrado:', result);
+            res.sendStatus(200);
+        });
     });
 });
 

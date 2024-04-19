@@ -22,24 +22,25 @@ function enviarFormulario() {
     } else if (senha2.trim() === '') {
         alert("O campo Confirmar senha está vazio.");
         return;
-    } else if (senha.trim() != senha2.trim()) {
-        alert("A senha está confirmada!");
+    } else if (senha.trim() !== senha2.trim()) {
+        alert("As senhas não coincidem.");
         return;
     }
 
-    // Realiza a solicitação ao servidor
+    // Realizar a solicitação ao servidor com a senha em texto simples
     fetch('http://localhost:3000/cadastrar', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ nome, cpf, email, senha })
+        body: JSON.stringify({ nome, cpf, email, senha }) // Enviar a senha em texto simples
     })
     .then(response => {
         if (response.ok) {
             alert('Usuário cadastrado com sucesso!');
             form.reset();
-            window.location.href("inform.html")
+            document.cookie = `userID=${usuarioID}; expires=${expirationDate.toGMTString()}`; //aqui, vou salvar o userID para utilizar mais na frente
+            window.location.href = 'inform.html'; // Redirecionar para a nova página
         } else {
             alert('Erro ao cadastrar usuário. Tente novamente mais tarde.');
         }
