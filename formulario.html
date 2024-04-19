@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Usuário</title>
     <link rel="stylesheet" href="css/style.css">
-    
+    <script src="js/script.js"></script>
 </head>
 <body>
 <header>
@@ -22,9 +22,16 @@
             <form id="cadastroForm" >
                 <label for="nome">Nome:</label><br>
                 <input type="text" id="nome" name="nome"><br>
+                <label for="cpf">Cpf:</label><br>
+                <input type="cpf" id="cpf"><br>
                 <label for="email">Email:</label><br>
-                <input type="email" id="email" name="email"><br><br>
-                <button type="submit">Cadastrar</button>
+                <input type="email" id="email" name="email">
+                <label for="senha">Senha:</label><br>
+                <input type="password" id="senha" name="senha">
+                <label for="senha2">Confirmar senha:</label><br>
+                <input type="password" id="senha2" name="senha2">
+                
+                <br><br><button type="submit" onclick="enviarFormulario()">Cadastrar</button>
             </form>
         </div>
     </div>
@@ -32,6 +39,6 @@
 <footer>
 
 </footer>
-<script src="js/script.js"></script>
+
 </body>
 </html>

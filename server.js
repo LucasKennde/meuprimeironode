@@ -39,10 +39,11 @@ app.use(bodyParser.json());
 
 // Rota para cadastrar usuário
 app.post('/cadastrar', (req, res) => {
-    const { nome, email } = req.body;
+    const status =2;
+    const { nome, cpf, email, senha} = req.body;
 
-    const sql = 'INSERT INTO caduser (nome, email) VALUES (?, ?)';
-    connection.query(sql, [nome, email], (err, result) => {
+    const sql = 'INSERT INTO caduser (nome, cpf, email, senha, status) VALUES (?, ?, ?, ?, ?)';
+    connection.query(sql, [nome, cpf, email, senha, status], (err, result) => {
         if (err) {
             console.error('Erro ao inserir usuário:', err);
             res.status(500).send('Erro ao cadastrar usuário.');
